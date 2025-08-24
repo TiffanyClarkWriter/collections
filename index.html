@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bullet Journal Collections</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .header .date {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+        
+        .header .subtitle {
+            color: #34495e;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        
+        .category {
+            margin-bottom: 25px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fafbfc;
+            transition: all 0.3s ease;
+        }
+        
+        .category:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52,152,219,0.1);
+        }
+        
+        .category-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+        
+        .item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+        }
+        
+        .item.sub-item {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        .item.sub-item::before {
+            content: "↳";
+            position: absolute;
+            left: -15px;
+            color: #7f8c8d;
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #3498db;
+        }
+        
+        label {
+            cursor: pointer;
+            font-size: 1em;
+            color: #34495e;
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+        
+        label:hover {
+            color: #3498db;
+        }
+        
+        input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #95a5a6;
+            opacity: 0.7;
+        }
+        
+        .completed-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .completed-counter {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+        }
+        
+        .celebration {
+            animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="completed-counter" id="counter">
+        Completed: <span id="count">0</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Bullet Journal Collections</h1>
+            <div class="date">August 24, 2025</div>
+            <div class="subtitle">Ready to copy-paste straight into your planner or note-app. Check a box, feel the dopamine hit—simple as that.</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Artistic</div>
+            <div class="item"><input type="checkbox" id="quotes"><label for="quotes">Quotes</label></div>
+            <div class="item"><input type="checkbox" id="mindmap"><label for="mindmap">Mind-map</label></div>
+            <div class="item"><input type="checkbox" id="banners"><label for="banners">Banners</label></div>
+            <div class="item"><input type="checkbox" id="writingprompts"><label for="writingprompts">Writing prompts</label></div>
+            <div class="item"><input type="checkbox" id="pinstried"><label for="pinstried">Pins I've tried</label></div>
+            <div class="item sub-item"><input type="checkbox" id="characterdev"><label for="characterdev">Character development</label></div>
+            <div class="item"><input type="checkbox" id="pentest"><label for="pentest">Pen test</label></div>
+            <div class="item"><input type="checkbox" id="washitapes"><label for="washitapes">Washi tapes / swatches</label></div>
+            <div class="item"><input type="checkbox" id="icons"><label for="icons">Icons</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Blogging / Social Media</div>
+            <div class="item"><input type="checkbox" id="blogstats"><label for="blogstats">Blog stat tracking</label></div>
+            <div class="item"><input type="checkbox" id="socialstats"><label for="socialstats">Social-media stat tracking</label></div>
+            <div class="item sub-item"><input type="checkbox" id="challengetracker"><label for="challengetracker">Challenge(s) tracker</label></div>
+            <div class="item"><input type="checkbox" id="blogpostideas"><label for="blogpostideas">Blog-post ideas</label></div>
+            <div class="item"><input type="checkbox" id="followergoals"><label for="followergoals">Follower goals</label></div>
+            <div class="item"><input type="checkbox" id="instainspiration"><label for="instainspiration">Instagram inspiration</label></div>
+            <div class="item"><input type="checkbox" id="blogtags"><label for="blogtags">Blog tags</label></div>
+            <div class="item"><input type="checkbox" id="blogcategories"><label for="blogcategories">Blog categories</label></div>
+            <div class="item"><input type="checkbox" id="instahashtags"><label for="instahashtags">Instagram hashtags</label></div>
+            <div class="item sub-item"><input type="checkbox" id="fbschedule"><label for="fbschedule">Facebook share schedule</label></div>
+            <div class="item"><input type="checkbox" id="prepublish"><label for="prepublish">Pre-publish checklist</label></div>
+            <div class="item"><input type="checkbox" id="postpublish"><label for="postpublish">Post-publish checklist</label></div>
+            <div class="item"><input type="checkbox" id="coursestobuy"><label for="coursestobuy">Courses to buy</label></div>
+            <div class="item"><input type="checkbox" id="bloggerscollab"><label for="bloggerscollab">Bloggers / creators to collab with</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Date-Specific</div>
+            <div class="item"><input type="checkbox" id="birthdays"><label for="birthdays">Birthdays</label></div>
+            <div class="item sub-item"><input type="checkbox" id="keydates"><label for="keydates">Other key dates to remember</label></div>
+            <div class="item"><input type="checkbox" id="anniversaries"><label for="anniversaries">Anniversaries</label></div>
+            <div class="item"><input type="checkbox" id="lineaday"><label for="lineaday">Line-a-day journal</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Entertainment</div>
+            <div class="item"><input type="checkbox" id="moviestowatch"><label for="moviestowatch">Movies to watch</label></div>
+            <div class="item"><input type="checkbox" id="favmovies"><label for="favmovies">Favourite movies</label></div>
+            <div class="item"><input type="checkbox" id="showstowatch"><label for="showstowatch">Shows to watch</label></div>
+            <div class="item sub-item"><input type="checkbox" id="episodetracker"><label for="episodetracker">Episode tracker</label></div>
+            <div class="item"><input type="checkbox" id="favshows"><label for="favshows">Favourite shows</label></div>
+            <div class="item"><input type="checkbox" id="appstotry"><label for="appstotry">Apps to try</label></div>
+            <div class="item"><input type="checkbox" id="favapps"><label for="favapps">Favourite apps</label></div>
+            <div class="item"><input type="checkbox" id="bookstoread"><label for="bookstoread">Books to read</label></div>
+            <div class="item"><input type="checkbox" id="favbooks"><label for="favbooks">Favourite books</label></div>
+            <div class="item"><input type="checkbox" id="booksreadthisyear"><label for="booksreadthisyear">Books I've read this year</label></div>
+            <div class="item sub-item"><input type="checkbox" id="seasonalactivities"><label for="seasonalactivities">Seasonal activities</label></div>
+            <div class="item"><input type="checkbox" id="fairsfestivals"><label for="fairsfestivals">Fairs / festivals</label></div>
+            <div class="item"><input type="checkbox" id="concerts"><label for="concerts">Concerts</label></div>
+            <div class="item"><input type="checkbox" id="restaurantstotry"><label for="restaurantstotry">Restaurants to try</label></div>
+            <div class="item"><input type="checkbox" id="eventplanning"><label for="eventplanning">Event planning</label></div>
+            <div class="item"><input type="checkbox" id="dateideas"><label for="dateideas">Date ideas</label></div>
+            <div class="item"><input type="checkbox" id="localattractions"><label for="localattractions">Local attractions</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Family</div>
+            <div class="item"><input type="checkbox" id="babyfeedinglog"><label for="babyfeedinglog">Baby feeding log</label></div>
+            <div class="item"><input type="checkbox" id="familytree"><label for="familytree">Family tree notes</label></div>
+            <div class="item"><input type="checkbox" id="vetvisits"><label for="vetvisits">Veterinarian visits</label></div>
+            <div class="item"><input type="checkbox" id="petmedlog"><label for="petmedlog">Pet-medication log</label></div>
+            <div class="item"><input type="checkbox" id="childmedlog"><label for="childmedlog">Child-medication log</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Health</div>
+            <div class="item"><input type="checkbox" id="sleeptracker"><label for="sleeptracker">Sleep tracker</label></div>
+            <div class="item"><input type="checkbox" id="exerciselog"><label for="exerciselog">Exercise log</label></div>
+            <div class="item"><input type="checkbox" id="mealplan"><label for="mealplan">Meal plan</label></div>
+            <div class="item"><input type="checkbox" id="mealideas"><label for="mealideas">Meal ideas bank</label></div>
+            <div class="item"><input type="checkbox" id="weightlosstracker"><label for="weightlosstracker">Weight-loss tracker</label></div>
+            <div class="item"><input type="checkbox" id="recipestotry"><label for="recipestotry">Recipes to try</label></div>
+            <div class="item sub-item"><input type="checkbox" id="medicationlog"><label for="medicationlog">Medication log</label></div>
+            <div class="item"><input type="checkbox" id="healthlog"><label for="healthlog">Health log</label></div>
+            <div class="item"><input type="checkbox" id="whole30tracker"><label for="whole30tracker">Whole30 tracker</label></div>
+            <div class="item"><input type="checkbox" id="foodrestrictions"><label for="foodrestrictions">Food restrictions list</label></div>
+            <div class="item"><input type="checkbox" id="eliminationdiet"><label for="eliminationdiet">Elimination-diet notes</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Home</div>
+            <div class="item"><input type="checkbox" id="konmari"><label for="konmari">KonMari / organizing list</label></div>
+            <div class="item sub-item"><input type="checkbox" id="seasonalchores"><label for="seasonalchores">Seasonal chores</label></div>
+            <div class="item"><input type="checkbox" id="homeimprovement"><label for="homeimprovement">Home-improvement list</label></div>
+            <div class="item"><input type="checkbox" id="automaintenance"><label for="automaintenance">Auto maintenance log</label></div>
+            <div class="item"><input type="checkbox" id="foodinventory"><label for="foodinventory">Food inventory (pantry / freezer / fridge)</label></div>
+            <div class="item"><input type="checkbox" id="choresmaster"><label for="choresmaster">Chores master list</label></div>
+            <div class="item"><input type="checkbox" id="cleaningschedule"><label for="cleaningschedule">Cleaning schedule</label></div>
+            <div class="item sub-item"><input type="checkbox" id="capsulewardrobe"><label for="capsulewardrobe">Capsule wardrobe</label></div>
+            <div class="item"><input type="checkbox" id="thingstomail"><label for="thingstomail">Things to mail</label></div>
+            <div class="item"><input type="checkbox" id="thingstosell"><label for="thingstosell">Things to sell</label></div>
+            <div class="item"><input type="checkbox" id="thingstogiveaway"><label for="thingstogiveaway">Things to give away</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">School</div>
+            <div class="item"><input type="checkbox" id="examprep"><label for="examprep">Exam-prep planner</label></div>
+            <div class="item"><input type="checkbox" id="studyschedule"><label for="studyschedule">Study schedule</label></div>
+            <div class="item sub-item"><input type="checkbox" id="studytracker"><label for="studytracker">Study tracker</label></div>
+            <div class="item"><input type="checkbox" id="readingschedule"><label for="readingschedule">Reading schedule</label></div>
+            <div class="item"><input type="checkbox" id="readingtrackers"><label for="readingtrackers">Reading trackers</label></div>
+            <div class="item"><input type="checkbox" id="attendancelog"><label for="attendancelog">Attendance log</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Shopping</div>
+            <div class="item"><input type="checkbox" id="shoppinglist"><label for="shoppinglist">Shopping list</label></div>
+            <div class="item"><input type="checkbox" id="giftideas"><label for="giftideas">Gift ideas</label></div>
+            <div class="item sub-item"><input type="checkbox" id="couponlog"><label for="couponlog">Coupon log</label></div>
+            <div class="item"><input type="checkbox" id="pricetracker"><label for="pricetracker">Price tracker</label></div>
+            <div class="item"><input type="checkbox" id="wishlist"><label for="wishlist">Wishlist</label></div>
+            <div class="item"><input type="checkbox" id="purchaseslog"><label for="purchaseslog">Purchases log</label></div>
+            <div class="item"><input type="checkbox" id="waitingdelivery"><label for="waitingdelivery">Waiting-for-delivery list</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Personal Development</div>
+            <div class="item"><input type="checkbox" id="lessonslearned"><label for="lessonslearned">Lessons learned</label></div>
+            <div class="item"><input type="checkbox" id="memories"><label for="memories">Memories</label></div>
+            <div class="item"><input type="checkbox" id="startstopcontinue"><label for="startstopcontinue">Start / Stop / Continue</label></div>
+            <div class="item"><input type="checkbox" id="habittracker"><label for="habittracker">Habit tracker</label></div>
+            <div class="item"><input type="checkbox" id="goals"><label for="goals">Goals (personal & business)</label></div>
+            <div class="item sub-item"><input type="checkbox" id="gratitudelist"><label for="gratitudelist">Gratitude list</label></div>
+            <div class="item"><input type="checkbox" id="affirmations"><label for="affirmations">Affirmations</label></div>
+            <div class="item"><input type="checkbox" id="moodtracker"><label for="moodtracker">Mood tracker</label></div>
+            <div class="item"><input type="checkbox" id="skillstohone"><label for="skillstohone">Skills to hone</label></div>
+            <div class="item"><input type="checkbox" id="thirtyby30"><label for="thirtyby30">"30 by 30" (or your milestone age)</label></div>
+            <div class="item"><input type="checkbox" id="miraclemorning"><label for="miraclemorning">Miracle-morning routine</label></div>
+            <div class="item"><input type="checkbox" id="corevalues"><label for="corevalues">Core values</label></div>
+            <div class="item sub-item"><input type="checkbox" id="randomacts"><label for="randomacts">Random acts of kindness</label></div>
+            <div class="item"><input type="checkbox" id="energytracker"><label for="energytracker">Energy tracker</label></div>
+            <div class="item"><input type="checkbox" id="tasksbyenergy"><label for="tasksbyenergy">Tasks by energy level</label></div>
+            <div class="item"><input type="checkbox" id="dailyroutine"><label for="dailyroutine">Daily routine</label></div>
+            <div class="item"><input type="checkbox" id="level10life"><label for="level10life">Level-10 life assessment</label></div>
+            <div class="item"><input type="checkbox" id="vocabularybuilder"><label for="vocabularybuilder">Vocabulary builder</label></div>
+            <div class="item"><input type="checkbox" id="conferencesworkshops"><label for="conferencesworkshops">Conferences / workshops</label></div>
+            <div class="item sub-item"><input type="checkbox" id="review"><label for="review">Review (weekly | monthly | yearly)</label></div>
+            <div class="item"><input type="checkbox" id="timetracker"><label for="timetracker">Time tracker</label></div>
+            <div class="item"><input type="checkbox" id="prioritytracker"><label for="prioritytracker">Priority tracker</label></div>
+            <div class="item"><input type="checkbox" id="applicationtracker"><label for="applicationtracker">Application tracker</label></div>
+            <div class="item"><input type="checkbox" id="listoflists"><label for="listoflists">"Lists of lists" master index</label></div>
+            <div class="item"><input type="checkbox" id="collaborations"><label for="collaborations">Collaborations</label></div>
+            <div class="item"><input type="checkbox" id="todontlist"><label for="todontlist">"To-don't" list</label></div>
+            <div class="item sub-item"><input type="checkbox" id="ifthisthenthat"><label for="ifthisthenthat">If-this-then-that reference</label></div>
+            <div class="item"><input type="checkbox" id="dreamslog"><label for="dreamslog">Dreams log</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Task-Specific</div>
+            <div class="item"><input type="checkbox" id="currentprojects"><label for="currentprojects">Current projects</label></div>
+            <div class="item"><input type="checkbox" id="futureprojects"><label for="futureprojects">Future projects</label></div>
+            <div class="item"><input type="checkbox" id="jobstobedone"><label for="jobstobedone">Jobs to be done</label></div>
+            <div class="item"><input type="checkbox" id="braindump"><label for="braindump">Brain-dump / mind-sweep</label></div>
+            <div class="item sub-item"><input type="checkbox" id="waitingonlist"><label for="waitingonlist">Waiting-on list</label></div>
+            <div class="item"><input type="checkbox" id="preparingfor"><label for="preparingfor">Preparing for X</label></div>
+            <div class="item"><input type="checkbox" id="decisionstomake"><label for="decisionstomake">Decisions to make</label></div>
+            <div class="item"><input type="checkbox" id="somedaymaybe"><label for="somedaymaybe">Someday / maybe list</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Travel</div>
+            <div class="item"><input type="checkbox" id="packinglist"><label for="packinglist">Packing list</label></div>
+            <div class="item"><input type="checkbox" id="placestogo"><label for="placestogo">Places to go</label></div>
+            <div class="item sub-item"><input type="checkbox" id="placesbeento"><label for="placesbeento">Places I've been</label></div>
+            <div class="item"><input type="checkbox" id="thingstodovacation"><label for="thingstodovacation">Things to do on vacation</label></div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title">Financial</div>
+            <div class="item"><input type="checkbox" id="spendingtracker"><label for="spendingtracker">Spending tracker</label></div>
+            <div class="item"><input type="checkbox" id="incometracker"><label for="incometracker">Income tracker</label></div>
+            <div class="item"><input type="checkbox" id="savingstracker"><label for="savingstracker">Savings tracker</label></div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-style: italic;">
+            Source: recreated from your uploaded PDF.
+        </div>
+    </div>
+    
+    <script>
+        let totalItems = 0;
+        let completedItems = 0;
+        
+        function updateCounter() {
+            const count = document.getElementById('count');
+            const progressFill = document.getElementById('progressFill');
+            const counter = document.getElementById('counter');
+            
+            count.textContent = completedItems;
+            
+            const percentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+            progressFill.style.width = percentage + '%';
+            
+            // Add celebration animation when checking items
+            if (event && event.target.checked) {
+                counter.classList.add('celebration');
+                setTimeout(() => counter.classList.remove('celebration'), 600);
+            }
+        }
+        
+        function initializeForm() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            totalItems = checkboxes.length;
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        completedItems++;
+                    } else {
+                        completedItems--;
+                    }
+                    updateCounter();
+                });
+            });
+            
+            updateCounter();
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeForm);
+    </script>
+</body>
+</html>
